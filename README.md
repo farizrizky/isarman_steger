@@ -41,5 +41,8 @@
     Contoh pada Niagahoster:
     <pre><code>ln -s /home/u123456789/domains/myapp.com/public_html/storage/app/public /home/u123456789/domains/myapp.com/public_html/public/storage</code></pre>
   </li>
+  <li><strong>Setting ASSET_URL pada .env</strong><br>
+  <pre><code>ASSET_URL=/public</code></pre>
+  </li>
 </ul>
 
