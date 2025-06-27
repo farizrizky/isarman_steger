@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 class WhatsappTemplateController extends Controller
 {
     public function whatsappStartChat($whatsappNumber){
+        $whatsappNumber = str_replace([' ', '-', '(', ')'], '', $whatsappNumber); // Menghapus spasi, tanda hubung, dan kurung
         if (substr($whatsappNumber, 0, 1) == '0') {
             $whatsappNumber = '62' . substr($whatsappNumber, 1);
         }
@@ -31,6 +32,7 @@ class WhatsappTemplateController extends Controller
             return redirect('/sewa/draft')->with('sweetalert', $sweetalert);
         }
         $whatsappNumber = $rent->renter->renter_phone;
+        $whatsappNumber = str_replace([' ', '-', '(', ')'], '', $whatsappNumber); // Menghapus spasi, tanda hubung, dan kurung
         if (substr($whatsappNumber, 0, 1) == '0') {
             $whatsappNumber = '62' . substr($whatsappNumber, 1);
         }
@@ -57,6 +59,8 @@ class WhatsappTemplateController extends Controller
             return redirect('/sewa/draft')->with('sweetalert', $sweetalert);
         }
         $whatsappNumber = $rent->renter_phone;
+        $whatsappNumber = str_replace([' ', '-', '(', ')'], '', $whatsappNumber); // Menghapus spasi, tanda hubung, dan kurung
+
         if (substr($whatsappNumber, 0, 1) == '0') {
             $whatsappNumber = '62' . substr($whatsappNumber, 1);
         }
@@ -92,6 +96,7 @@ class WhatsappTemplateController extends Controller
             return redirect('/sewa/draft')->with('sweetalert', $sweetalert);
         }
         $whatsappNumber = $user->first()->phone;
+        $whatsappNumber = str_replace([' ', '-', '(', ')'], '', $whatsappNumber); // Menghapus spasi, tanda hubung, dan kurung
         if (substr($whatsappNumber, 0, 1) == '0') {
             $whatsappNumber = '62' . substr($whatsappNumber, 1);
         }
@@ -116,6 +121,8 @@ class WhatsappTemplateController extends Controller
             return redirect('/sewa/draft')->with('sweetalert', $sweetalert);
         }
         $whatsappNumber = $rent->renter->renter_phone;
+        $whatsappNumber = str_replace([' ', '-', '(', ')'], '', $whatsappNumber); // Menghapus spasi, tanda hubung, dan kurung
+
         if (substr($whatsappNumber, 0, 1) == '0') {
             $whatsappNumber = '62' . substr($whatsappNumber, 1);
         }

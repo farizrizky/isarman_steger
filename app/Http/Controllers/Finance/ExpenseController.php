@@ -36,7 +36,7 @@ class ExpenseController extends Controller
             $pathFile = $pathFile->storeAs('expense', $fileName, 'public');
 
             Expense::where('expense_id', $expenseId)->update([
-                'expense_file' => 'public/'.$pathFile,
+                'expense_file' => $pathFile,
             ]);
 
             $sweetalert = [
@@ -111,7 +111,7 @@ class ExpenseController extends Controller
                 $fileExtension = $pathFile->getClientOriginalExtension();
                 $fileName = 'expense_'.$expenseId.'.'.$fileExtension;
                 $pathFile = $pathFile->storeAs('expense', $fileName, 'public');
-                $request->merge(['expense_file' => 'public/'.$pathFile]);
+                $request->merge(['expense_file' => $pathFile]);
             }
             $expense->update($request->all());
 

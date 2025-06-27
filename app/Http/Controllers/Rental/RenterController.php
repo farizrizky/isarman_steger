@@ -48,7 +48,7 @@ class RenterController extends Controller
         $fileName = 'identity_'.$renterId.'.'.$fileExtension;
         $pathFile = $pathFile->storeAs('renter', $fileName, 'public');
         Renter::find($renterId)->update([
-            'renter_identity_photo' => 'public/'.$pathFile,
+            'renter_identity_photo' => $pathFile,
         ]);
 
         $sweetalert =  [
@@ -77,7 +77,7 @@ class RenterController extends Controller
             $fileName = 'identity_'.$id.'.'.$fileExtension;
             $pathFile = $pathFile->storeAs('renter', $fileName, 'public');
             Renter::find($id)->update([
-                'renter_identity_photo' => 'public/'.$pathFile,
+                'renter_identity_photo' => $pathFile,
             ]);
         }
 

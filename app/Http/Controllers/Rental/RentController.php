@@ -317,7 +317,7 @@ class RentController extends Controller
             $fileName = 'identity_'.$renterId.'.'.$fileExtension;
             $pathFile = $pathFile->storeAs('renter', $fileName, 'public');
             $request->merge([
-                'renter_identity_photo' => 'public/'.$pathFile
+                'renter_identity_photo' => $pathFile
             ]);
         }
         Renter::find($renterId)->update($request->all());
@@ -445,7 +445,7 @@ class RentController extends Controller
             $fileExtension = $renterIdentityFile->getClientOriginalExtension();
             $fileName = 'identity_'.$renterId.'.'.$fileExtension;
             $pathFile = $renterIdentityFile->storeAs('renter', $fileName, 'public');
-            Renter::find($renterId)->update(['renter_identity_photo'=>'public/'.$pathFile]);
+            Renter::find($renterId)->update(['renter_identity_photo'=>$pathFile]);
            
         }
 
@@ -541,7 +541,7 @@ class RentController extends Controller
                 $fileName = 'identity_'.$renterId.'.'.$fileExtension;
                 $pathFile = $pathFile->storeAs('renter', $fileName, 'public');
                 $request->merge([
-                    'renter_identity_photo' => 'public/'.$pathFile
+                    'renter_identity_photo' => $pathFile
                 ]);
             }
             Renter::find($renterId)->update($request->all());
@@ -775,7 +775,7 @@ class RentController extends Controller
             $fileExtension = $pathFile->getClientOriginalExtension();
             $fileName = 'invoice_'.$id.'.'.$fileExtension;
             $pathFile = $pathFile->storeAs('rent/rent_'.$id, $fileName, 'public');
-            $request->merge(['rent_invoice_photo' => 'public/'.$pathFile]); 
+            $request->merge(['rent_invoice_photo' => $pathFile]); 
         }
 
         $rent->update($request->all());
@@ -827,7 +827,7 @@ class RentController extends Controller
                 CashFlowController::createCashFlow($dataCashFlow);
             }
 
-            $request->merge(['rent_receipt_photo' => 'public/'.$pathFile]); 
+            $request->merge(['rent_receipt_photo' => $pathFile]); 
         }
 
         if($request->hasFile('rent_statement_letter_file')){
@@ -839,7 +839,7 @@ class RentController extends Controller
             $fileExtension = $pathFile->getClientOriginalExtension();
             $fileName = 'statement_letter_'.$id.'.'.$fileExtension;
             $pathFile = $pathFile->storeAs('rent/rent_'.$id, $fileName, 'public');
-            $request->merge(['rent_statement_letter_photo' => 'public/'.$pathFile]); 
+            $request->merge(['rent_statement_letter_photo' => $pathFile]); 
         }
 
         if($request->hasFile('rent_event_report_file')){
@@ -850,7 +850,7 @@ class RentController extends Controller
             $fileExtension = $pathFile->getClientOriginalExtension();
             $fileName = 'event_report_'.$id.'.'.$fileExtension;
             $pathFile = $pathFile->storeAs('rent/rent_'.$id, $fileName, 'public');
-            $request->merge(['rent_event_report_photo' => 'public/'.$pathFile]); 
+            $request->merge(['rent_event_report_photo' => $pathFile]); 
         }
 
         if($request->hasFile('rent_transport_letter_file')){
@@ -861,7 +861,7 @@ class RentController extends Controller
             $fileExtension = $pathFile->getClientOriginalExtension();
             $fileName = 'transport_letter_'.$id.'.'.$fileExtension;
             $pathFile = $pathFile->storeAs('rent/rent_'.$id, $fileName, 'public');
-            $request->merge(['rent_transport_letter_photo' => 'public/'.$pathFile]); 
+            $request->merge(['rent_transport_letter_photo' => $pathFile]); 
         }
 
         if($request->hasFile('rent_invoice_file')){
@@ -872,7 +872,7 @@ class RentController extends Controller
             $fileExtension = $pathFile->getClientOriginalExtension();
             $fileName = 'invoice_'.$id.'.'.$fileExtension;
             $pathFile = $pathFile->storeAs('rent/rent_'.$id, $fileName, 'public');
-            $request->merge(['rent_invoice_photo' => 'public/'.$pathFile]); 
+            $request->merge(['rent_invoice_photo' => $pathFile]); 
         }
 
         $rent->update($request->all());
@@ -1077,7 +1077,7 @@ class RentController extends Controller
             $fileExtension = $pathFile->getClientOriginalExtension();
             $fileName = 'invoice_return'.$id.'.'.$fileExtension;
             $pathFile = $pathFile->storeAs('rent/rent_'.$id, $fileName, 'public');
-            $request->merge(['rent_return_invoice_photo' => 'public/'.$pathFile]);
+            $request->merge(['rent_return_invoice_photo' => $pathFile]);
         }
         
         $rentReturn->update($request->all());
@@ -1108,7 +1108,7 @@ class RentController extends Controller
             $fileExtension = $pathFile->getClientOriginalExtension();
             $fileName = 'receipt_return'.$id.'.'.$fileExtension;
             $pathFile = $pathFile->storeAs('rent/rent_'.$id, $fileName, 'public');
-            $request->merge(['rent_return_receipt_photo' => 'public/'.$pathFile]);
+            $request->merge(['rent_return_receipt_photo' => $pathFile]);
 
             if($rentReturn->rent_return_payment_status == 'Belum Bayar'){
                 $dataRentReturn['rent_return_payment_status'] = 'Lunas';

@@ -43,7 +43,7 @@ class PurchaseController extends Controller
         $fileExtension = $path->getClientOriginalExtension();
         $fileName = 'receipt_'.$purchaseId.'.'.$fileExtension;
         $pathFile = $path->storeAs('purchase/purchase_'.$purchaseId, $fileName, 'public');
-        Purchase::find($purchaseId)->update(['purchase_receipt_photo'=>'public/'.$pathFile]);
+        Purchase::find($purchaseId)->update(['purchase_receipt_photo'=>$pathFile]);
 
         $itemId = $request->item_id;
         $purchaseItemQuantity = $request->purchase_item_quantity;
@@ -114,7 +114,7 @@ class PurchaseController extends Controller
                 $fileExtension = $path->getClientOriginalExtension();
                 $fileName = 'receipt_'.$purchaseId.'.'.$fileExtension;
                 $pathFile = $path->storeAs('purchase/purchase_'.$purchaseId, $fileName, 'public');
-                $request->merge(['purchase_receipt_photo' => 'public/'.$pathFile]);
+                $request->merge(['purchase_receipt_photo' => $pathFile]);
             }
 
             $itemId = $request->item_id;
@@ -172,10 +172,10 @@ class PurchaseController extends Controller
                 
                 $request->merge([
                     'purchase_id' => $purchaseId,
-                    'purchase_accepted_evidence_courier_photo' => 'public/'.$pathFileCourier,
-                    'purchase_accepted_evidence_courier_identity_photo' => 'public/'.$pathFileCourierIdentity,
-                    'purchase_accepted_evidence_vehicle_photo' => 'public/'.$pathFileVehicle,
-                    'purchase_accepted_evidence_vehicle_identity_photo' => 'public/'.$pathFileVehicleIdentity
+                    'purchase_accepted_evidence_courier_photo' => $pathFileCourier,
+                    'purchase_accepted_evidence_courier_identity_photo' => $pathFileCourierIdentity,
+                    'purchase_accepted_evidence_vehicle_photo' => $pathFileVehicle,
+                    'purchase_accepted_evidence_vehicle_identity_photo' => $pathFileVehicleIdentity
                 ]);
                 
                 //Simpan bukti penerimaan
@@ -184,7 +184,7 @@ class PurchaseController extends Controller
                     $fileExtension = $path->getClientOriginalExtension();
                     $fileName = 'file_'.$purchaseId.'.'.$fileExtension;
                     $pathFile = $path->storeAs('purchase/purchase_'.$purchaseId, $fileName, 'public');
-                    $request->merge(['purchase_accepted_evidence_file' => 'public/'.$pathFile]); 
+                    $request->merge(['purchase_accepted_evidence_file' => $pathFile]); 
                 }
                 PurchaseAcceptedEvidence::create($request->all());
                 $itemId = $request->item_id;
@@ -204,7 +204,7 @@ class PurchaseController extends Controller
                 $fileExtensionCourier = $pathCourier->getClientOriginalExtension();
                 $fileNameCourier = 'courier_'.$purchaseId.'.'.$fileExtensionCourier;
                 $pathFileCourier = $pathCourier->storeAs('purchase/purchase_'.$purchaseId, $fileNameCourier, 'public');
-                $request->merge(['purchase_accepted_evidence_courier_photo' => 'public/'.$pathFileCourier]); 
+                $request->merge(['purchase_accepted_evidence_courier_photo' => $pathFileCourier]); 
             }
 
             if($request->hasFile('purchase_accepted_evidence_courier_identity_file')){
@@ -213,7 +213,7 @@ class PurchaseController extends Controller
                 $fileExtensionCourierIdentity = $pathCourierIdentity->getClientOriginalExtension();
                 $fileNameCourierIdentity = 'courier_identity_'.$purchaseId.'.'.$fileExtensionCourierIdentity;
                 $pathFileCourierIdentity = $pathCourierIdentity->storeAs('purchase/purchase_'.$purchaseId, $fileNameCourierIdentity, 'public');
-                $request->merge(['purchase_accepted_evidence_courier_identity_photo' => 'public/'.$pathFileCourierIdentity]); 
+                $request->merge(['purchase_accepted_evidence_courier_identity_photo' => $pathFileCourierIdentity]); 
             }
 
             if($request->hasFile('purchase_accepted_evidence_vehicle_file')){
@@ -222,7 +222,7 @@ class PurchaseController extends Controller
                 $fileExtensionVehicle = $pathVehicle->getClientOriginalExtension();
                 $fileNameVehicle = 'vehicle_'.$purchaseId.'.'.$fileExtensionVehicle;
                 $pathFileVehicle = $pathVehicle->storeAs('purchase/purchase_'.$purchaseId, $fileNameVehicle, 'public');
-                $request->merge(['purchase_accepted_evidence_vehicle_photo' => 'public/'.$pathFileVehicle]); 
+                $request->merge(['purchase_accepted_evidence_vehicle_photo' => $pathFileVehicle]); 
             }
 
             if($request->hasFile('purchase_accepted_evidence_vehicle_identity_file')){
@@ -231,7 +231,7 @@ class PurchaseController extends Controller
                 $fileExtensionVehicleIdentity = $pathVehicleIdentity->getClientOriginalExtension();
                 $fileNameVehicleIdentity = 'vehicle_identity_'.$purchaseId.'.'.$fileExtensionVehicleIdentity;
                 $pathFileVehicleIdentity = $pathVehicleIdentity->storeAs('purchase/purchase_'.$purchaseId, $fileNameVehicleIdentity, 'public');
-                $request->merge(['purchase_accepted_evidence_vehicle_identity_photo' => 'public/'.$pathFileVehicleIdentity]); 
+                $request->merge(['purchase_accepted_evidence_vehicle_identity_photo' => $pathFileVehicleIdentity]); 
             }
             
             if($request->hasFile('purchase_accepted_evidence_file_file')){
@@ -242,7 +242,7 @@ class PurchaseController extends Controller
                 $fileExtension = $path->getClientOriginalExtension();
                 $fileName = 'file_'.$purchaseId.'.'.$fileExtension;
                 $pathFile = $path->storeAs('purchase/purchase_'.$purchaseId, $fileName, 'public');
-                $request->merge(['purchase_accepted_evidence_file' => 'public/'.$pathFile]); 
+                $request->merge(['purchase_accepted_evidence_file' => $pathFile]); 
             }
 
             $purchaseEvidence->update($request->all());

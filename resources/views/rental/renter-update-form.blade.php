@@ -43,7 +43,7 @@
                                 <div class="form-group form-inline row">
                                     <label for="renter_phone" class="col-md-3 col-form-label text-wrap"><b>No. Telp / WA</b></label>
                                     <div class="col-md-9 p-0">
-                                        <input type="number" class="form-control input-full" value="{{ $renter->renter_phone }}" name="renter_phone" id="renter_phone" required>
+                                        <input type="text" class="form-control input-full" value="{{ $renter->renter_phone }}" name="renter_phone" id="renter_phone" required>
                                         <div class="invalid-feedback">No. Telp / WA harus diisi</div>
                                     </div>
                                 </div>

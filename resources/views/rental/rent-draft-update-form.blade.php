@@ -46,7 +46,7 @@
                                 <div class="form-group form-inline row">
                                     <label for="renter_phone" class="col-md-3 col-form-label text-wrap"><b>No. Telp / WA</b></label>
                                     <div class="col-md-9 p-0">
-                                        <input type="number" class="form-control input-full" value="{{ $rent->renter->renter_phone }}" name="renter_phone" id="renter_phone" required>
+                                        <input type="text" class="form-control input-full" value="{{ $rent->renter->renter_phone }}" name="renter_phone" id="renter_phone" required>
                                         <div class="invalid-feedback">No. Telp / WA harus diisi</div>
                                     </div>
                                 </div>
@@ -139,7 +139,7 @@
                                 <div class="form-group form-inline row">
                                     <label for="rent_project_phone" class="col-md-4 col-form-label text-wrap"><b>No. Telp Petugas Proyek</b></label>
                                     <div class="col-md-8 p-0">
-                                        <input type="number" class="form-control input-full" value="{{ $rent->rent_project_phone }}" name="rent_project_phone" id="rent_project_phone" required>
+                                        <input type="text" class="form-control input-full" value="{{ $rent->rent_project_phone }}" name="rent_project_phone" id="rent_project_phone" required>
                                         <div class="invalid-feedback">No. Telp petugas proyek harus diisi</div>
                                     </div>
                                 </div>

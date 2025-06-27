@@ -208,7 +208,7 @@ class RepairController extends Controller
         $fileExtension = $path->getClientOriginalExtension();
         $fileName = 'receipt_'.$repair->repair_id.'.'.$fileExtension;
         $pathFile = $path->storeAs('repair', $fileName, 'public');
-        $dataRepair['repair_receipt_file'] = 'public/'.$pathFile; 
+        $dataRepair['repair_receipt_file'] = $pathFile; 
                 
         if($repair->repair_payment_status == 'Belum Bayar'){
            $dataRepair['repair_payment_status'] = 'Lunas';
