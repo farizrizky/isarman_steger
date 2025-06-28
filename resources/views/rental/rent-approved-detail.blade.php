@@ -251,7 +251,7 @@
                                                         </td>
                                                         <td>
                                                             @if($rent->rent_receipt_photo != null)
-                                                            <a target="_blank" href="/file/{{ encrypt($rent->rent_receipt_photo) }}" class="btn btn-primary"><i class="fas fa-eye"></i> Lihat</a>
+                                                            <a target="_blank" href="{{ asset('storage/'.$rent->rent_receipt_photo) }}" class="btn btn-primary"><i class="fas fa-eye"></i> Lihat</a>
                                                             @else
                                                             -
                                                             @endif
@@ -268,7 +268,7 @@
                                                         </td>
                                                         <td>
                                                             @if($rent->rent_statement_letter_photo != null)
-                                                            <a target="_blank" href="/file/{{ encrypt($rent->rent_statement_letter_photo) }}" class="btn btn-primary"><i class="fas fa-eye"></i> Lihat</a>
+                                                            <a target="_blank" href="{{ asset('storage/'.$rent->rent_statement_letter_photo) }}" class="btn btn-primary"><i class="fas fa-eye"></i> Lihat</a>
                                                             @else
                                                             -
                                                             @endif
@@ -285,7 +285,7 @@
                                                         </td>
                                                         <td>
                                                             @if($rent->rent_event_report_photo != null)
-                                                            <a target="_blank" href="/file/{{ encrypt($rent->rent_event_report_photo) }}" class="btn btn-primary"><i class="fas fa-eye"></i> Lihat</a>
+                                                            <a target="_blank" href="{{ asset('storage/'.$rent->rent_event_report_photo) }}" class="btn btn-primary"><i class="fas fa-eye"></i> Lihat</a>
                                                             @else
                                                             -
                                                             @endif
@@ -302,7 +302,7 @@
                                                         </td>
                                                         <td>
                                                             @if($rent->rent_transport_letter_photo != null)
-                                                            <a target="_blank" data-image="/file/{{ encrypt($rent->rent_transport_letter_photo) }}" class="btn btn-primary"><i class="fas fa-eye"></i> Lihat</a>
+                                                            <a target="_blank" data-image="{{ asset('storage/'.$rent->rent_transport_letter_photo) }}" class="btn btn-primary"><i class="fas fa-eye"></i> Lihat</a>
                                                             @else
                                                             -
                                                             @endif
@@ -319,7 +319,7 @@
                                                         </td>
                                                         <td>
                                                             @if($rent->rent_invoice_photo != null)
-                                                            <a target="_blank" href="/file/{{ encrypt($rent->rent_invoice_photo) }}" class="btn btn-primary"><i class="fas fa-eye"></i> Lihat</a>
+                                                            <a target="_blank" href="{{ asset('storage/'.$rent->rent_invoice_photo) }}" class="btn btn-primary"><i class="fas fa-eye"></i> Lihat</a>
                                                             @else
                                                             -
                                                             @endif
