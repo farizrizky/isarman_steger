@@ -83,9 +83,7 @@
                                     <td class="d-none">
                                         @if($daysDiffFromNow < 0)
                                             danger
-                                        @elseif($daysDiffFromNow == 0)
-                                            secondary
-                                        @elseif($daysDiffFromNow >=1 && $daysDiffFromNow <= 7)
+                                        @elseif($daysDiffFromNow >=1 && $daysDiffFromNow <= 3)
                                             warning
                                         @else
                                             success

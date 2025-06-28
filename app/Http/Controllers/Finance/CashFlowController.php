@@ -159,7 +159,7 @@ class CashFlowController extends Controller
             }
 
             foreach($label as $key => $value){
-                $dataBalance[] = $dataIncome[$key] - $dataExpense[$key];
+                $dataBalance[] = ($dataIncome[$key] ?? 0) - ($dataExpense[$key] ?? 0);
             }
         }else if($dataType == "Per Month"){
            $cashIncome = CashFlow::whereNotNull('cash_flow_income_category')
@@ -186,7 +186,7 @@ class CashFlowController extends Controller
             }
 
             foreach($label as $key => $value){
-                $dataBalance[] = $dataIncome[$key] - $dataExpense[$key];
+                $dataBalance[] = ($dataIncome[$key] ?? 0) - ($dataExpense[$key] ?? 0);
             }
         }else if($dataType == "Per Year"){
             $cashIncome = CashFlow::whereNotNull('cash_flow_income_category')
@@ -211,7 +211,7 @@ class CashFlowController extends Controller
             }
 
             foreach($label as $key => $value){
-                $dataBalance[] = $dataIncome[$key] - $dataExpense[$key];
+                $dataBalance[] = ($dataIncome[$key] ?? 0) - ($dataExpense[$key] ?? 0);
             }
         }
 

@@ -119,7 +119,7 @@
                         <div class="col col-stats ms-3 ms-sm-0">
                             <div class="numbers">
                                 <p class="card-category">Deposit Belum Dibayar</p>
-                                <h4 class="card-title currency">{{ HData::getRentTotal('Selesai') }}</h4>
+                                <h4 class="card-title currency">{{ $unpaid_deposit }}</h4>
                             </div>
                         </div>
                     </div>

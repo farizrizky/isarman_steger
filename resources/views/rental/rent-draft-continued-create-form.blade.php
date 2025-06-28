@@ -123,7 +123,7 @@
                                     <label for="rent_project_name" class="col-md-4 col-form-label text-wrap"><b>Nama Proyek</b></label>
                                     <div class="col-md-8 p-0">
                                         <input type="text" class="form-control input-full" value="{{ $rent_extend->rent_project_name }}" name="rent_project_name" id="rent_project_name" required>
-                                        <div class="invalid-feedback">Nama Proyek</div>
+                                        <div class="invalid-feedback">Nama Proyek harus diisi</div>
                                     </div>
                                 </div>
                                 <div class="form-group form-inline row">
@@ -185,7 +185,8 @@
                                     <div class="col-md-7 p-0 ">
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">Rp</span>
-                                            <input type="text" class="form-control currency" value="0" name="rent_transport_price" id="rent_transport_price">
+                                            <input type="text" class="form-control currency" value="0" name="rent_transport_price" id="rent_transport_price" required>
+                                            <div class="invalid-feedback">Biaya transport harus diisi minimal 0</div>
                                         </div>
                                     </div>
                                 </div>
@@ -194,7 +195,8 @@
                                     <div class="col-md-7 p-0 ">
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">Rp</span>
-                                            <input type="text" class="form-control currency" value="0" name="rent_deposit" id="rent_deposit">
+                                            <input type="text" class="form-control currency" value="0" name="rent_deposit" id="rent_deposit" required>
+                                            <div class="invalid-feedback">Deposit harus diisi minimal 0</div>
                                         </div>
                                     </div>
                                 </div>
@@ -203,7 +205,8 @@
                                     <div class="col-md-7 p-0 ">
                                         <div class="input-group mb-3">
                                             <span class="input-group-text">Rp</span>
-                                            <input type="text" class="form-control currency" value="0" name="rent_discount" id="rent_discount">
+                                            <input type="text" class="form-control currency" value="0" name="rent_discount" id="rent_discount" required>
+                                            <div class="invalid-feedback">Discount harus diisi minimal 0</div>
                                         </div>
                                     </div>
                                 </div>    

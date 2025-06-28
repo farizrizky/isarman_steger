@@ -36,7 +36,7 @@
                     <span class="badge badge-danger">Lewat {{ abs($daysDiffFromNow) }} hari</span>
                 @elseif($daysDiffFromNow == 0)
                     <span class="badge badge-secondary">Berakhir Hari Ini</span>
-                @elseif($daysDiffFromNow >=1 && $daysDiffFromNow <= 7)
+                @elseif($daysDiffFromNow >=1 && $daysDiffFromNow <= 3)
                     <span class="badge badge-warning">Berakhir dalam {{ $daysDiffFromNow }} hari</span>
                 @else
                     <span class="badge badge-success">Berakhir dalam {{ $daysDiffFromNow }} hari</span>

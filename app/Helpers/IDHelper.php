@@ -56,7 +56,7 @@ class IDHelper {
         $zero = str_repeat('0', $totalDigit - strlen($rentNumber));
         $number = $zero.$rentNumber;
 
-        return $number."/ISB/INVS/".$name.'/'.$month.'/'.$year;
+        return $number."/ISB/".$name.'/'.$month.'/'.$year;
     }
     
 }
