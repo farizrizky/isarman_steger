@@ -63,6 +63,9 @@
             margin: 0;
             padding-left: 15px;
         }
+        thead {
+  display: table-header-group;
+}
         .text-small {
             font-size: 10px;
         }
@@ -75,17 +78,13 @@
     <table id="rent-book">
         <thead>
             <tr>
-                <th rowspan="2">No</th>
-                <th rowspan="2">Nomor Penyewaan</th>
-                <th rowspan="2">Penyewa</th>
-                <th colspan="2">Daftar Item</th>
-                <th rowspan="2">Waktu Sewa</th>
-                <th rowspan="2">Proyek</th>
-                <th rowspan="2">Keterangan Akhir</th>
-            </tr>
-            <tr>
-                <th>Nama</th>
-                <th>Jumlah</th>
+                <th>No</th>
+                <th>Nomor Penyewaan</th>
+                <th>Penyewa</th>
+                <th>Daftar Item</th>
+                <th>Waktu Sewa</th>
+                <th>Proyek</th>
+                <th>Keterangan Akhir</th>
             </tr>
         </thead>
         <tbody>
@@ -112,15 +111,31 @@
                     })->sortBy('item_name')->values();
                 @endphp
                 <tr>
-                    <td rowspan="{{ sizeof($item) }}">{{ $no++ }}</td>
-                    <td rowspan="{{ sizeof($item) }}">{{ HID::genNumberRent($r->rent_id) }}</td>
-                    <td rowspan="{{ sizeof($item) }}">
+                    <td>{{ $no++ }}</td>
+                    <td>{{ HID::genNumberRent($r->rent_id) }}</td>
+                    <td>
                         {{ $r->renter->renter_name }}<br>
                         Telp. Penyewa {{ $r->renter->renter_phone }}
                     </td>
-                    <td> {{ $item[0]['item_name'] }} </td>
-                    <td>{{ $item[0]['item_quantity'] }} {{ $item[0]['item_unit'] }}</td>
-                    <td rowspan="{{ sizeof($item) }}">
+                    <td style="padding: 2px;">
+                        <table style="width: 100%; border-collapse: collapse; margin: 0;">
+                            <thead>
+                                <tr>
+                                    <th style="padding: 2px;" width="60%">Nama Barang</th>
+                                    <th style="padding: 2px;" width="40%">Jumlah</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach ($item as $i)
+                                <tr>
+                                    <td style="padding: 2px;" width="60%">{{ $i['item_name'] }}</td>
+                                    <td style="padding: 2px;" width="40%">{{ $i['item_quantity'] }} {{ $i['item_unit'] }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </td>
+                    <td>
                         @if($r->rent_duration == '2 Minggu')
                             2 Minggu
                         @elseif($r->rent_duration == 'Per Bulan')
@@ -129,12 +144,12 @@
                         <br>
                         {{ HDate::dateFormat($r->rent_start_date) }} s.d {{ HDate::dateFormat($r->rent_end_date) }}
                     </td>
-                    <td rowspan="{{ sizeof($item) }}">
+                    <td>
                         <strong>{{ $r->rent_project_name }}</strong><br>
                         <i>{{ $r->rent_project_address }}</i><br>
                         Telp. Petugas Proyek {{ $r->rent_project_phone }}
                     </td>
-                    <td rowspan="{{ sizeof($item) }}"  class="{{ $statusClass }}">
+                    <td  class="{{ $statusClass }}">
                         @if($r->rent_status == 'Selesai')
                             <strong>Status Penyewaan : Selesai</strong><br>
                             @if($r->rentReturn->rent_return_status == 'Selesai')
@@ -173,12 +188,7 @@
                         @endif
                     </td>
                 </tr>
-                @foreach ($item->slice(1) as $i)
-                    <tr>
-                        <td>{{ $i['item_name'] }}</td>
-                        <td>{{ $i['item_quantity'] }} {{ $i['item_unit'] }}</td>
-                    </tr>
-                    @endforeach
+               
             @endforeach
         </tbody>
     </table>

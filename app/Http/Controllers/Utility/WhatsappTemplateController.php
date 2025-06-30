@@ -130,7 +130,14 @@ class WhatsappTemplateController extends Controller
         // Menghitung sisa durasi sewa
         $remainingDuration = \App\Helpers\DateHelper::daysDiffFromNow($rent->rent_end_date);
 
-        $message = "Salam hormat,\n\nKami ingin mengingatkan anda bahwa penyewaan Scaffolding anda akan berakhir pada tanggal *".\App\Helpers\DateHelper::dateFormat($rent->rent_end_date)." (".$remainingDuration." hari lagi)*"."\n\n";
+        if($remainingDuration > 0){
+            $message = "Salam hormat,\n\nKami ingin mengingatkan anda bahwa penyewaan Scaffolding anda akan berakhir pada tanggal *".\App\Helpers\DateHelper::dateFormat($rent->rent_end_date)." (".$remainingDuration." hari lagi)*"."\n\n";
+        }else if($remainingDuration == 0){
+            $message = "Salam hormat,\n\nKami ingin mengingatkan anda bahwa hari ini adalah hari terakhir penyewaan Scaffolding anda.\n\n";
+        }else{
+            $message = "Salam hormat,\n\nKami ingin mengingatkan anda bahwa penyewaan Scaffolding anda telah berakhir pada tanggal *".\App\Helpers\DateHelper::dateFormat($rent->rent_end_date)." (".abs($remainingDuration)." hari yang lalu)*"."\n\n";
+        }   
+        
         $message .= "Mohon segera melakukan konfirmasi pengembalian atau perpanjangan sewa jika diperlukan.\n\n";
         $message .= "Terima kasih atas perhatian anda.\n\n";
         $message .= "Salam,\n";

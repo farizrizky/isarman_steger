@@ -141,23 +141,27 @@
     <p>Dengan ini para pihak sepakat mengadakan perjanjian sewa menyewa atas peralatan sebagai berikut:</p>
     <table id="item_list">
         <thead>
-        <tr>
-            <th>No</th>
-            <th>Nama Item / Set</th>
-            <th>Jumlah</th>
-            <th>Harga Satuan</th>
-            <th>Total</th>
-            <th>Waktu Sewa</th>
-        </tr>
+            <tr>
+                <th>No</th>
+                <th>Nama Item / Set</th>
+                <th>Jumlah</th>
+                <th>Harga Satuan</th>
+                <th>Total</th>
+                <th>Waktu Sewa</th>
+            </tr>
         </thead>
         <tbody>
             @php 
-                $rent_duration_text = "";
-                $i=1; 
+                $rent_duration_text = $rent->rent_duration == '2 Minggu' ? '2 Minggu' : $rent->rent_total_duration . ' Bulan';
                 $deposit = $rent->rent_deposit > 0 ? 1 : 0;
                 $discount = $rent->rent_discount > 0 ? 1 : 0;
+                $rowAdditional = $rent->rent_is_extension ? 4 : 2;
                 $item = $rent->rentItem->where('rent_set_id', null);
+                $rowspan = $rent->rentSet->count() + $item->count() + $rowAdditional + $deposit + $discount;
+                $i = 1;
+                $hasDuration = false;
             @endphp
+
             @foreach ($rent->rentSet as $rs)
             <tr>
                 <td>{{ $i++ }}</td>
@@ -165,59 +169,77 @@
                 <td>{{ number_format($rs->rent_set_quantity, 0, ',', '.') }} Set</td>
                 <td>Rp {{ number_format($rs->rent_set_price, 0, ',', '.') }}</td>
                 <td>Rp {{ number_format($rs->rent_set_total_price, 0, ',', '.') }}</td>
-                @if($rent_duration_text == "")
-                @php $rent_duration_text = $rent->rent_duration == '2 Minggu' ? '2 Minggu' : $rent->rent_total_duration . ' Bulan'; @endphp
-                @php $rowAdditional = $rent->rent_is_extension ? 4 : 2; @endphp
-                <td rowspan="{{ $rent->rentSet->count() + count($item) + $rowAdditional + $deposit + $discount }}">{{ $rent_duration_text; }}</td>
+                @if (!$hasDuration)
+                    <td rowspan="{{ $rowspan }}">{{ $rent_duration_text }}</td>
+                    @php $hasDuration = true; @endphp
                 @endif
             </tr>
             @endforeach
-            @foreach($item as $it)
+
+            @foreach ($item as $it)
             <tr>
                 <td>{{ $i++ }}</td>
                 <td style="text-align:left;">{{ $it->item->item_name }}</td>
                 <td>{{ number_format($it->rent_item_quantity, 0, ',', '.') }} {{ $it->item->item_unit }}</td>
                 <td>Rp {{ number_format($it->rent_item_price, 0, ',', '.') }}</td>
                 <td>Rp {{ number_format($it->rent_item_total_price, 0, ',', '.') }}</td>
+                @if (!$hasDuration)
+                    <td rowspan="{{ $rowspan }}">{{ $rent_duration_text }}</td>
+                    @php $hasDuration = true; @endphp
+                @endif
             </tr>
             @endforeach
+
+            @if (!$hasDuration)
             <tr>
-                <td>{{  $i++ }}</td>
+                <td>{{ $i++ }}</td>
+                <td colspan="4">-</td>
+                <td rowspan="{{ $rowspan }}">{{ $rent_duration_text }}</td>
+            </tr>
+            @endif
+
+            <tr>
+                <td>{{ $i++ }}</td>
                 <td colspan="3" style="text-align:left;">Biaya Transport</td>
                 <td>Rp {{ number_format($rent->rent_transport_price, 0, ',', '.') }}</td>
             </tr>
-            @if($deposit == 1)
+
+            @if ($deposit == 1)
             <tr>
-                <td>{{  $i++ }}</td>
-                <td colspan="3"  style="text-align:left;">Deposit</td>
+                <td>{{ $i++ }}</td>
+                <td colspan="3" style="text-align:left;">Deposit</td>
                 <td>Rp {{ number_format($rent->rent_deposit, 0, ',', '.') }}</td>
             </tr>
             @endif
-            @if($discount == 1)
+
+            @if ($discount == 1)
             <tr>
-                <td>{{  $i++ }}</td>
-                <td colspan="3"  style="text-align:left;">Diskon</td>
+                <td>{{ $i++ }}</td>
+                <td colspan="3" style="text-align:left;">Diskon</td>
                 <td>Rp {{ number_format($rent->rent_discount, 0, ',', '.') }}</td>
             </tr>
             @endif
-            @if($rent->rent_is_extension==1)
-                <tr>
-                    <td>{{  $i++ }}</td>
-                    <td colspan="3"><strong>Total Biaya Sewa</strong></td>
-                    <td><strong>Rp {{ number_format($rent->rent_total_price, 0, ',', '.');}}</strong></td>
-                </tr>
-                <tr>
-                    <td>{{  $i++ }}</td>
-                    <td colspan="3">Deposit dari Sewa Sebelumnya</td>
-                    <td>Rp {{ number_format($rent->rent_last_deposit, 0, ',', '.');}}</td>
-                </tr>
-            @endif
+
+            @if ($rent->rent_is_extension == 1)
             <tr>
-                <td colspan="4"  style="text-align:left;"><strong>Total</strong></td>
+                <td>{{ $i++ }}</td>
+                <td colspan="3"><strong>Total Biaya Sewa</strong></td>
+                <td><strong>Rp {{ number_format($rent->rent_total_price, 0, ',', '.') }}</strong></td>
+            </tr>
+            <tr>
+                <td>{{ $i++ }}</td>
+                <td colspan="3">Deposit dari Sewa Sebelumnya</td>
+                <td>Rp {{ number_format($rent->rent_last_deposit, 0, ',', '.') }}</td>
+            </tr>
+            @endif
+
+            <tr>
+                <td colspan="4" style="text-align:left;"><strong>Total</strong></td>
                 <td><strong>Rp {{ number_format($rent->rent_total_price, 0, ',', '.') }}</strong></td>  
             </tr>
         </tbody>
     </table>
+
 </div>
 
 <div class="section">
