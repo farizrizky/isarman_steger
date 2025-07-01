@@ -228,16 +228,20 @@ class PdfRenderController extends Controller
 
         // Mulai Query
         $rent = Rent::whereIn('rent_status', $rentStatus)
-                ->whereIn('rent_status_payment', $rentStatusPayment)
-                ->with(['renter','rentItem','rentReturn'])
-                ->whereHas('rentReturn', function($query) use ($rentReturnStatus, $rentReturnPaymentStatus, $rentReturnReceiptStatus, $rentReturnIsComplete) {
-                $query->whereIn('rent_return_status', $rentReturnStatus)
+        ->whereIn('rent_status_payment', $rentStatusPayment)
+        ->with(['renter','rentItem','rentReturn'])
+        ->where(function($query) use ($rentReturnStatus, $rentReturnPaymentStatus, $rentReturnReceiptStatus, $rentReturnIsComplete) {
+            $query->whereHas('rentReturn', function($q) use ($rentReturnStatus, $rentReturnPaymentStatus, $rentReturnReceiptStatus, $rentReturnIsComplete) {
+                $q->whereIn('rent_return_status', $rentReturnStatus)
                     ->whereIn('rent_return_payment_status', $rentReturnPaymentStatus)
                     ->whereIn('rent_return_receipt_status', $rentReturnReceiptStatus)
                     ->whereIn('rent_return_is_complete', $rentReturnIsComplete);
             })
-    
+            // tambahkan orWhereDoesntHave
+            ->orWhereDoesntHave('rentReturn');
+        })
         ->orderBy('rent_number', 'asc');
+
 
         // Filter berdasarkan tanggal
         if (!is_null($rentStartDate) && !is_null($rentEndDate)) {
