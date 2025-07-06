@@ -10,10 +10,10 @@ class DashboardController extends Controller
 {
     public function dashboard(){
         // get last 6 rent data
-        $rent = Rent::limit(6)->orderBy('rent_end_date', 'asc')->get();
+        $rent = Rent::where('rent_status', 'Berjalan')->limit(6)->orderBy('rent_end_date', 'asc')->get();
 
         // get last 30 days rent data
-        $rent30Days = Rent::where('rent_status', 'Berjalan')
+        $rent30Days = Rent::where('rent_status', '!=', 'Draft')
             ->whereBetween('rent_start_date', [now()->subDays(30), now()])
             ->selectRaw('DATE(rent_start_date) as rent_start_date, COUNT(*) as total')
             ->groupBy('rent_start_date')
