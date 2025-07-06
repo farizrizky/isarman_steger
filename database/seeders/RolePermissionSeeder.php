@@ -2,31 +2,25 @@
 
 namespace Database\Seeders;
 
-use App\Models\Cash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class InitialSetupSeeder extends Seeder
+class RolePermissionSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
+        
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        // Clear existing roles and permissions
-        DB::table('model_has_permissions')->truncate();
-        DB::table('model_has_roles')->truncate();
         DB::table('role_has_permissions')->truncate();
         DB::table('permissions')->truncate();
         DB::table('roles')->truncate();
-        DB::table('users')->truncate();
-
-        // Create roles and permissions
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         $roles = [
             'Owner',
             'Direktur',
@@ -45,7 +39,8 @@ class InitialSetupSeeder extends Seeder
             'repair',
             'rent',
             'finance',
-            'approve_rent'
+            'approve_rent',
+            'price_list'
         ];
 
         foreach ($permission as $perm){
@@ -63,19 +58,5 @@ class InitialSetupSeeder extends Seeder
             $roleInstance->givePermissionTo($permissions);
         }
 
-        // Create the initial user with Owner role
-        User::factory()->create([
-            'name' => 'isarman',
-            'fullname' => 'Isarman',
-            'phone' => '081234567890',
-            'email' => 'owner@isarmansteger.com',
-            'password' => bcrypt('steger2025#')
-        ])->assignRole('Owner');
-        
-        // Create the initial cash
-        Cash::create([
-            'cash_initial_balance' => 0,
-            'cash_balance' => 0,
-        ]);
     }
 }

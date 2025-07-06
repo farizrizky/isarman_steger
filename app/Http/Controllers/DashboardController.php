@@ -13,7 +13,7 @@ class DashboardController extends Controller
         $rent = Rent::limit(6)->orderBy('rent_end_date', 'asc')->get();
 
         // get last 30 days rent data
-        $rent30Days = Rent::where('rent_status', '!=', 'Draft')
+        $rent30Days = Rent::where('rent_status', 'Berjalan')
             ->whereBetween('rent_start_date', [now()->subDays(30), now()])
             ->selectRaw('DATE(rent_start_date) as rent_start_date, COUNT(*) as total')
             ->groupBy('rent_start_date')
@@ -29,20 +29,33 @@ class DashboardController extends Controller
         }
         
         //get unpaid rent
-        $unpaidRent = Rent::where('rent_status', '!=', 'Draft')
+        $unpaidRent = Rent::selectRaw('COUNT(*) as total')
+            ->selectRaw('SUM(rent_total_payment) as total_payment')
+            ->where('rent_status', '!=', 'Draft')
             ->where('rent_status_payment', 'Belum Bayar')
-            ->count();
+            ->first();
 
         //get rent return fine unpaid
-        $unpaidFine = RentReturn::where('rent_return_receipt_status', 'Klaim Ganti Rugi')
+        $unpaidFine = RentReturn::selectRaw('COUNT(*) as total')
+            ->selectRaw('SUM(rent_return_total_payment) as total_fine')
+            ->where('rent_return_receipt_status', 'Klaim Ganti Rugi')
             ->where('rent_return_payment_status', 'Belum Bayar')
-            ->count();
+            ->first();
 
         //get rent return deposit unpaid
-        $unpaidDeposit = RentReturn::where('rent_return_receipt_status', 'Pengembalian Deposit')
+        $unpaidDeposit = RentReturn::selectRaw('COUNT(*) as total')
+            ->selectRaw('SUM(rent_return_total_payment) as total_deposit')
+            ->where('rent_return_receipt_status', 'Pengembalian Deposit')
             ->where('rent_return_payment_status', 'Belum Bayar')
-            ->count();
+            ->first();
 
+        //get most renter
+        $mostRenter = Rent::with('renter')
+            ->selectRaw('renter_id, COUNT(*) as total')
+            ->where('rent_status', 'Berjalan')
+            ->groupBy('renter_id')
+            ->orderBy('total', 'desc')
+            ->take(6);
         $data = [
             'rent' => $rent,
             'label' => $label,

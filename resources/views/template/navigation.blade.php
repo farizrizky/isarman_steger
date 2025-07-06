@@ -6,13 +6,15 @@
             <p>Dashboard</p>
         </a>
     </li>
-    @if(HUser::userHasPermission(['item', 'stock', 'purchase', 'repair']))
+    @if(HUser::userHasOneOrMorePermission(['item', 'stock', 'purchase', 'repair', 'price_list']))
     <li class="nav-section">
         <span class="sidebar-mini-icon">
           <i class="fa fa-ellipsis-h"></i>
         </span>
         <h4 class="text-section">Master</h4>
     </li>
+    @endif
+    @if(HUser::userHasPermission(['stock']))
     <li class="nav-item">
         <a data-bs-toggle="collapse" href="#scaffolding">
             <i class="fas fa-layer-group"></i>
@@ -44,22 +46,36 @@
             </ul>
         </div>
     </li>
+    @endif
+    @if(HUser::userHasPermission(['item']))
     <li class="nav-item">
         <a href="/scaffolding/item">
             <i class="far fa-list-alt"></i>
             <p>Item & Set</p>
         </a>
     </li>
+    @endif
+    @if(HUser::userHasPermission(['purchase']))
     <li class="nav-item">
         <a href="/scaffolding/pembelian">
             <i class="far fa-plus-square"></i>
             <p>Pembelian</p>
         </a>
     </li>
+    @endif
+    @if(HUser::userHasPermission(['repair']))
     <li class="nav-item">
         <a href="/scaffolding/perbaikan">
             <i class="fas fa-wrench"></i>
             <p>Perbaikan</p>
+        </a>
+    </li>
+    @endif
+    @if(HUser::userHasPermission(['price_list']))
+    <li class="nav-item">
+        <a href="/pdf/daftar-harga">
+            <i class="fas fa-print"></i>
+            <p>Cetak Daftar Harga</p>
         </a>
     </li>
     @endif
@@ -109,6 +125,12 @@
             <p>Buku Besar Penyewaan</p>
         </a>
     </li>
+    <li class="nav-item">
+        <a href="/sewa/grafik">
+            <i class="fas fa-chart-line"></i>
+            <p>Grafik Penyewaan</p>
+        </a>
+    </li>
     @endif
     @if(HUser::userHasPermission(['finance']))
     <li class="nav-section">
@@ -139,6 +161,12 @@
         <a href="/keuangan/arus-kas/pengeluaran">
             <i class="fas fa-minus-square"></i>
             <p>Buku Besar Pengeluaran</p>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="/keuangan/grafik">
+            <i class="fas fa-chart-line"></i>
+            <p>Grafik Keuangan</p>
         </a>
     </li>
     @endif

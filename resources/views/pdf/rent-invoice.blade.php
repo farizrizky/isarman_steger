@@ -210,12 +210,12 @@
         <table id="signature">
             <tr>
                 <td id="signature-left">
-                    <br><br>
+                    <br><br><br>
                     <p>Penyewa</p><br><br>
                     <p><strong>{{ $rent->renter->renter_name }}</strong></p>
                 </td>
                 <td id="signature-right">
-                    <p>Hormat Kami,<br>{{ HUser::userSigned('LoggedIn User')['level'] }}<br>CV. Isarman Steger Bengkulu</p><br><br>
+                    <p>Bengkulu, .............................<br><br>{{ HUser::userSigned('LoggedIn User')['level'] }}<br>CV. Isarman Steger Bengkulu</p><br><br>
                     <p><strong>{{ HUser::userSigned('LoggedIn User')['fullname'] }}</strong></p>
                 </td>
             </tr>

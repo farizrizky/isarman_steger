@@ -5,9 +5,6 @@
         <div>
             <h3 class="fw-bold mb-3">Buku Besar Penyewaan</h3>
         </div>
-        <div class="ms-md-auto">
-            <a class="btn btn-primary" href="/sewa/grafik"><i class="fas fa-chart-line"></i> Grafik Penyewaan</a>
-        </div>
     </div>
     <div class="row">
         <div class="col-md-12">

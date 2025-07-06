@@ -198,17 +198,17 @@
         <table id="signature">
             <tr>
                 <td id="signature-left">
-                    <br><br>
+                    <br><br><br>
                     <p>Penyewa</p><br><br>
                     <strong>{{ $rent->renter->renter_name }}</strong>
                 </td>
                 <td id="signature-middle">
-                    <br>
+                    <br><br>
                     <p>Pengemudi<br>CV. Isarman Steger Bengkulu</p><br><br>
                     <strong>........................</strong>
                 </td>
                 <td id="signature-right">
-                    <p>Hormat Kami,<br>{{ HUser::userSigned('LoggedIn User')['level'] }}<br>CV. Isarman Steger Bengkulu</p><br><br>
+                    <p>Bengkulu, .............................<br><br>{{ HUser::userSigned('LoggedIn User')['level'] }}<br>CV. Isarman Steger Bengkulu</p><br><br>
                     <strong>{{ HUser::userSigned('LoggedIn User')['fullname'] }}</strong>
                 </td>
             </tr>

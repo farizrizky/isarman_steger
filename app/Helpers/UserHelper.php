@@ -36,6 +36,21 @@ class UserHelper {
         }
    }
 
+   public static function userHasOneOrMorePermission(Array $permission){
+        $user = Auth::user();
+        if(is_null($user)){
+            return false;
+        }
+
+        $userPermissions = $user->getAllPermissions()->pluck('name')->toArray();
+        foreach($permission as $perm){
+            if(in_array($perm, $userPermissions)){
+                return true;
+            }
+        }
+        return false;
+   }
+
    public static function ownerExists(){
         $owner = User::role('Owner')->exists();
         if($owner){

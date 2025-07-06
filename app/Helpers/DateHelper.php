@@ -15,6 +15,12 @@ Class DateHelper{
         return $carbon->translatedFormat('l, d F Y') . ' Pukul ' . $carbon->format('H:i');
     }
 
+    public static function fullDateFormatWithoutTime($date){
+        App::setLocale('id');
+        $carbon = Carbon::createFromFormat('Y-m-d H:i:s', $date);
+        return $carbon->translatedFormat('l, d F Y');
+    }
+
     public static function dateTimeFormat($date){
         return date('d-m-Y H:i:s', strtotime($date));
     }

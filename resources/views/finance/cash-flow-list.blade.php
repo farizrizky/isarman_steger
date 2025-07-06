@@ -11,7 +11,6 @@
         <div class="ms-md-auto">
             <small>Saldo Akhir Kas  :</small>
             <h1>Rp <span class="currency">{{ $cash_balance }}</span></h1>
-            <a class="btn btn-primary" href="/keuangan/grafik"><i class="fas fa-chart-line"></i> Grafik Keuangan</a>
         </div>
     </div>
     <div class="row">

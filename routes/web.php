@@ -42,6 +42,8 @@ Route::middleware('auth')->group(function(){
         Route::get('/scaffolding/set/hapus/{id}', [SetController::class, 'deleteSet']);
     });
 
+    Route::get('/pdf/daftar-harga', [PdfRenderController::class, 'pdfPriceList'])->middleware('can:price_list');
+
     Route::middleware('can:purchase')->group(function(){
         Route::get('/scaffolding/pembelian', [PurchaseController::class, 'purchase']);
         Route::get('/scaffolding/pembelian/input', [PurchaseController::class, 'createFormPurchase']);
@@ -68,6 +70,8 @@ Route::middleware('auth')->group(function(){
     Route::middleware('can:stock')->group(function(){
         Route::get('/scaffolding/stok/{category?}', [StockController::class, 'stock']);
         Route::get('/scaffolding/stok/item/{itemId}', [StockController::class, 'stockItem']);
+
+        Route::get('/pdf/stok-item', [PdfRenderController::class, 'pdfStockItem']);
     });
 
     Route::middleware('can:rent')->group(function(){
@@ -104,6 +108,8 @@ Route::middleware('auth')->group(function(){
         Route::get('/sewa/grafik', [RentController::class, 'rentChart']);
         Route::get('/sewa/grafik/data', [RentController::class, 'rentChartData']);
 
+        Route::get('/pdf/buku-penyewaan/{startDate}/{endDate}/{rentStatus}/{rentStatusPayment}/{rentReturnPaymentStatus}/{rentReturnReceiptStatus}/{rentReturnIsComplete}/{rentReturnStatus}', [PdfRenderController::class, 'pdfBookRent']);
+
     });
 
     Route::middleware('can:finance')->group(function(){
@@ -121,14 +127,15 @@ Route::middleware('auth')->group(function(){
 
         Route::get('/keuangan/grafik', [CashFlowController::class, 'cashChart']);
         Route::get('/keuangan/grafik/data', [CashFlowController::class, 'cashChartData']);
+        // Route::get('/keuangan/kas-awal', [CashController::class, 'initialBalanceCash']);
+        // Route::post('/keuangan/kas-awal/simpan', [CashController::class, 'saveIntialBalanceCash']);
+
+        Route::get('/pdf/arus-kas/{startDate}/{endDate}', [PdfRenderController::class, 'pdfCashFlow']);
+        Route::get('/pdf/arus-kas-pemasukan/{startDate}/{endDate}', [PdfRenderController::class, 'pdfCashFlowIncome']);
+        Route::get('/pdf/arus-kas-pengeluaran/{startDate}/{endDate}', [PdfRenderController::class, 'pdfCashFlowExpense']);
     
     });
 });
-
-// Route::get('/keuangan/kas-awal', [CashController::class, 'initialBalanceCash']);
-// Route::post('/keuangan/kas-awal/simpan', [CashController::class, 'saveIntialBalanceCash']);
-
-Route::get('/reset-stok', [RenterController::class, 'resetStock']);
 
 Route::middleware('can:user')->group(function(){
     Route::get('/user', [UserController::class, 'listUser']);
@@ -144,12 +151,6 @@ Route::get('/wa/invoice-penyewaan/{id}', [WhatsappTemplateController::class, 'wh
 Route::get('/wa/invoice-pengembalian/{id}', [WhatsappTemplateController::class, 'whatsappInvoiceRentReturn']);
 Route::get('/wa/permintaan-persetujuan-draft-sewa/{userId}/{rentId}', [WhatsappTemplateController::class, 'whatsappRequestApprovingRent']);
 Route::get('/wa/informasi-sisa-waktu-sewa/{rentId}', [WhatsappTemplateController::class, 'whatsappRemainingDurationRent']);
-
-Route::get('/pdf/buku-penyewaan/{startDate}/{endDate}/{rentStatus}/{rentStatusPayment}/{rentReturnPaymentStatus}/{rentReturnReceiptStatus}/{rentReturnIsComplete}/{rentReturnStatus}', [PdfRenderController::class, 'pdfBookRent']);
-Route::get('/pdf/arus-kas/{startDate}/{endDate}', [PdfRenderController::class, 'pdfCashFlow']);
-Route::get('/pdf/arus-kas-pemasukan/{startDate}/{endDate}', [PdfRenderController::class, 'pdfCashFlowIncome']);
-Route::get('/pdf/arus-kas-pengeluaran/{startDate}/{endDate}', [PdfRenderController::class, 'pdfCashFlowExpense']);
-Route::get('/pdf/stok-item', [PdfRenderController::class, 'pdfStockItem']);
 
 Route::get('/pdf/invoice-penyewaan/{id}', [PdfRenderController::class, 'pdfInvoiceRent']);
 Route::get('/pdf/kwitansi-penyewaan/{id}', [PdfRenderController::class, 'pdfReceiptRent']);

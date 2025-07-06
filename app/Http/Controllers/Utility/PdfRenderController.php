@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\CashFlow;
 use App\Models\Rent;
 use App\Models\Stock;
+use App\Models\Item;
+use App\Models\Set;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
@@ -367,6 +369,20 @@ class PdfRenderController extends Controller
 
         $draft = Pdf::loadView('pdf.stock-item', $data);
         $draft->setPaper('A4', 'landscape');
+
+        return $draft->stream();
+    }
+
+    public function pdfPriceList(){
+        $item = Item::with('itemSet')->get();
+        $set = Set::with('item', 'itemSet')->get();
+        $data = [
+            'item' => $item,
+            'set' => $set,
+        ];
+
+        $draft = Pdf::loadView('pdf.price-list', $data);
+        $draft->setPaper('A4', 'portrait');
 
         return $draft->stream();
     }

@@ -137,81 +137,66 @@ class CashFlowController extends Controller
         $label = [];
         
         if($dataType == "Per Day"){
-            $cashIncome = CashFlow::whereNotNull('cash_flow_income_category')
-                ->whereBetween('created_at', [$startDate.' 00:00:00', $endDate.' 23.59.59'])
-                ->selectRaw('DATE(created_at) as date, SUM(cash_flow_amount) as total')
-                ->groupBy('date')
-                ->orderBy('date', 'asc')
-                ->get();
-            foreach($cashIncome as $income){
-                $dataIncome[] = $income->total;
-                $label[] = date('d M Y', strtotime($income->date));
-            }
+            $start = new \DateTime($startDate);
+            $end = new \DateTime($endDate);
+            $end->modify('+1 day');
+            $period = new \DatePeriod($start, new \DateInterval('P1D'), $end);
 
-            $cashExpense = CashFlow::whereNotNull('cash_flow_expense_category')
-                ->whereBetween('created_at', [$startDate.' 00:00:00', $endDate.' 23.59.59'])
-                ->selectRaw('DATE(created_at) as date, SUM(cash_flow_amount) as total')
-                ->groupBy('date')
-                ->orderBy('date', 'asc')
-                ->get();
-            foreach($cashExpense as $expense){
-                $dataExpense[] = $expense->total;
-            }
-
-            foreach($label as $key => $value){
-                $dataBalance[] = ($dataIncome[$key] ?? 0) - ($dataExpense[$key] ?? 0);
+            $index = 0;
+            foreach ($period as $date) {
+                $label[] = $date->format('d M Y');
+                $dataIncome[] = CashFlow::whereNotNull('cash_flow_income_category')
+                    ->whereDate('created_at', $date->format('Y-m-d'))
+                    ->sum('cash_flow_amount');
+                $dataExpense[] = CashFlow::whereNotNull('cash_flow_expense_category')
+                    ->whereDate('created_at', $date->format('Y-m-d'))
+                    ->sum('cash_flow_amount');
+                $getLatestBalance = CashFlow::whereBetween('created_at', ['1970-1-1 00:00:00', $date->format('Y-m-d').' 23:59:59'])
+                    ->orderBy('created_at', 'desc')->first()->cash_flow_balance_after ?? 0;
+                $dataBalance[] = CashFlow::whereDate('created_at', $date->format('Y-m-d'))
+                    ->select('cash_flow_balance_after')->get()->last()->cash_flow_balance_after ?? $getLatestBalance;
+                $index++;
             }
         }else if($dataType == "Per Month"){
-           $cashIncome = CashFlow::whereNotNull('cash_flow_income_category')
-                ->whereBetween('created_at', [$startDate.' 00:00:00', $endDate.' 23.59.59'])
-                ->selectRaw('MONTH(created_at) as month, YEAR(created_at) as year, SUM(cash_flow_amount) as total')
-                ->groupBy('month', 'year')
-                ->orderBy('year', 'asc')
-                ->orderBy('month', 'asc')
-                ->get();
-            foreach($cashIncome as $income){
-                $dataIncome[] = $income->total;
-                $label[] = date('M Y', strtotime($income->year.'-'.$income->month.'-01'));
-            }
-
-            $cashExpense = CashFlow::whereNotNull('cash_flow_expense_category')
-                ->whereBetween('created_at', [$startDate.' 00:00:00', $endDate.' 23.59.59'])
-                ->selectRaw('MONTH(created_at) as month, YEAR(created_at) as year, SUM(cash_flow_amount) as total')
-                ->groupBy('month', 'year')
-                ->orderBy('year', 'asc')
-                ->orderBy('month', 'asc')
-                ->get();
-            foreach($cashExpense as $expense){
-                $dataExpense[] = $expense->total;
-            }
-
-            foreach($label as $key => $value){
-                $dataBalance[] = ($dataIncome[$key] ?? 0) - ($dataExpense[$key] ?? 0);
+           $start = new \DateTime($startDate);
+            $end = new \DateTime($endDate);
+            $end->modify('last day of this month');
+            $period = new \DatePeriod($start, new \DateInterval('P1M'), $end);
+            
+            foreach ($period as $date) {
+                $label[] = $date->format('M Y');
+                $dataIncome[] = CashFlow::whereNotNull('cash_flow_income_category')
+                    ->whereYear('created_at', $date->format('Y'))
+                    ->whereMonth('created_at', $date->format('m'))
+                    ->sum('cash_flow_amount');
+                $dataExpense[] = CashFlow::whereNotNull('cash_flow_expense_category')
+                    ->whereYear('created_at', $date->format('Y'))
+                    ->whereMonth('created_at', $date->format('m'))
+                    ->sum('cash_flow_amount');
+                $getLatestBalance = CashFlow::whereBetween('created_at', ['1970-1-1 00:00:00', $date->format('Y-m-t').' 23:59:59'])
+                    ->orderBy('created_at', 'desc')->first()->cash_flow_balance_after ?? 0;
+                $dataBalance[] = CashFlow::whereYear('created_at', $date->format('Y'))
+                    ->whereMonth('created_at', $date->format('m'))
+                    ->select('cash_flow_balance_after')->get()->last()->cash_flow_balance_after ?? $getLatestBalance;
             }
         }else if($dataType == "Per Year"){
-            $cashIncome = CashFlow::whereNotNull('cash_flow_income_category')
-                ->whereBetween('created_at', [$startDate.' 00:00:00', $endDate.' 23.59.59'])
-                ->selectRaw('YEAR(created_at) as year, SUM(cash_flow_amount) as total')
-                ->groupBy('year')
-                ->orderBy('year', 'asc')
-                ->get();
-            foreach($cashIncome as $income){
-                $dataIncome[] = $income->total;
-                $label[] = date('Y', strtotime($income->year.'-01-01'));
-            }
+            $start = new \DateTime($startDate);
+            $end = new \DateTime($endDate);
+            $end->modify('last day of December');
+            $period = new \DatePeriod($start, new \DateInterval('P1Y'), $end);
 
-            $cashExpense = CashFlow::whereNotNull('cash_flow_expense_category')
-                ->whereBetween('created_at', [$startDate.' 00:00:00', $endDate.' 23.59.59'])
-                ->selectRaw('YEAR(created_at) as year, SUM(cash_flow_amount) as total')
-                ->groupBy('year')
-                ->orderBy('year', 'asc')
-                ->get();
-            foreach($cashExpense as $expense){
-                $dataExpense[] = $expense->total;
-            }
-
-            foreach($label as $key => $value){
-                $dataBalance[] = ($dataIncome[$key] ?? 0) - ($dataExpense[$key] ?? 0);
+            foreach ($period as $date) {
+                $label[] = $date->format('Y');
+                $dataIncome[] = CashFlow::whereNotNull('cash_flow_income_category')
+                    ->whereYear('created_at', $date->format('Y'))
+                    ->sum('cash_flow_amount');
+                $dataExpense[] = CashFlow::whereNotNull('cash_flow_expense_category')
+                    ->whereYear('created_at', $date->format('Y'))
+                    ->sum('cash_flow_amount');
+                $getLatestBalance = CashFlow::whereBetween('created_at', ['1970-1-1 00:00:00', $date->format('Y-12-31').' 23:59:59'])
+                    ->orderBy('created_at', 'desc')->first()->cash_flow_balance_after ?? 0;
+                $dataBalance[] = CashFlow::whereYear('created_at', $date->format('Y'))
+                    ->select('cash_flow_balance_after')->get()->last()->cash_flow_balance_after ?? $getLatestBalance;
             }
         }
 

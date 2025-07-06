@@ -23,8 +23,8 @@
                         </div>
                         <div class="col col-stats ms-3 ms-sm-0">
                             <div class="numbers">
-                                <p class="card-category">Draft Penyewaan</p>
-                                <h4 class="card-title currency">{{ HData::getRentTotal('Draft') }}</h4>
+                                <p class="card-category">Total Penyewaan</p>
+                                <h4 class="card-title currency">{{ HData::getRentTotal('Berjalan')+HData::getRentTotal('Selesai') }}</h4>
                             </div>
                         </div>
                     </div>
@@ -81,7 +81,8 @@
                         <div class="col col-stats ms-3 ms-sm-0">
                             <div class="numbers">
                                 <p class="card-category">Penyewaan Belum Dibayar</p>
-                                <h4 class="card-title currency">{{ $unpaid_rent }}</h4>
+                                <h4 class="card-title">Rp <span class="currency">{{ $unpaid_rent->total_payment ?? 0}}</span></h4>
+                                <small>Dari <span class="currency">{{ $unpaid_rent->total }}</span> Penyewaan</small>
                             </div>
                         </div>
                     </div>
@@ -100,7 +101,8 @@
                         <div class="col col-stats ms-3 ms-sm-0">
                             <div class="numbers">
                                 <p class="card-category">Ganti Rugi Belum Dibayar</p>
-                                <h4 class="card-title currency">{{ $unpaid_fine }}</h4>
+                                <h4 class="card-title">Rp <span class="currency">{{ $unpaid_fine->total_fine ?? 0}}</span></h4>
+                                <small>Dari <span class="currency">{{ $unpaid_fine->total }}</span> Penyewaan</small>
                             </div>
                         </div>
                     </div>
@@ -118,8 +120,9 @@
                         </div>
                         <div class="col col-stats ms-3 ms-sm-0">
                             <div class="numbers">
-                                <p class="card-category">Deposit Belum Dibayar</p>
-                                <h4 class="card-title currency">{{ $unpaid_deposit }}</h4>
+                                <p class="card-category">Deposit Belum Dikembalikan</p>
+                                <h4 class="card-title">Rp <span class="currency">{{ $unpaid_deposit->total_deposit ?? 0}}</span></h4>
+                                <small>Dari <span class="currency">{{ $unpaid_deposit->total }}</span> Penyewaan</small>
                             </div>
                         </div>
                     </div>
